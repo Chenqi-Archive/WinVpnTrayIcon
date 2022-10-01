@@ -1,0 +1,44 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32804.467
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WinVpnTrayIcon", "WinVpnTrayIcon\WinVpnTrayIcon.vcxproj", "{9EF2673C-18BB-465D-8CAE-812097992193}"
+	ProjectSection(ProjectDependencies) = postProject
+		{84FC1A56-C93B-4014-81E4-3D7F70D6EE66} = {84FC1A56-C93B-4014-81E4-3D7F70D6EE66}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WndDesign", "..\WndDesign\WndDesign\WndDesign.vcxproj", "{84FC1A56-C93B-4014-81E4-3D7F70D6EE66}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9EF2673C-18BB-465D-8CAE-812097992193}.Debug|x64.ActiveCfg = Debug|x64
+		{9EF2673C-18BB-465D-8CAE-812097992193}.Debug|x64.Build.0 = Debug|x64
+		{9EF2673C-18BB-465D-8CAE-812097992193}.Debug|x86.ActiveCfg = Debug|Win32
+		{9EF2673C-18BB-465D-8CAE-812097992193}.Debug|x86.Build.0 = Debug|Win32
+		{9EF2673C-18BB-465D-8CAE-812097992193}.Release|x64.ActiveCfg = Release|x64
+		{9EF2673C-18BB-465D-8CAE-812097992193}.Release|x64.Build.0 = Release|x64
+		{9EF2673C-18BB-465D-8CAE-812097992193}.Release|x86.ActiveCfg = Release|Win32
+		{9EF2673C-18BB-465D-8CAE-812097992193}.Release|x86.Build.0 = Release|Win32
+		{84FC1A56-C93B-4014-81E4-3D7F70D6EE66}.Debug|x64.ActiveCfg = Debug|x64
+		{84FC1A56-C93B-4014-81E4-3D7F70D6EE66}.Debug|x64.Build.0 = Debug|x64
+		{84FC1A56-C93B-4014-81E4-3D7F70D6EE66}.Debug|x86.ActiveCfg = Debug|Win32
+		{84FC1A56-C93B-4014-81E4-3D7F70D6EE66}.Debug|x86.Build.0 = Debug|Win32
+		{84FC1A56-C93B-4014-81E4-3D7F70D6EE66}.Release|x64.ActiveCfg = Release|x64
+		{84FC1A56-C93B-4014-81E4-3D7F70D6EE66}.Release|x64.Build.0 = Release|x64
+		{84FC1A56-C93B-4014-81E4-3D7F70D6EE66}.Release|x86.ActiveCfg = Release|Win32
+		{84FC1A56-C93B-4014-81E4-3D7F70D6EE66}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1A9CC391-2DAC-4DAE-A9C2-95091C0E9618}
+	EndGlobalSection
+EndGlobal
