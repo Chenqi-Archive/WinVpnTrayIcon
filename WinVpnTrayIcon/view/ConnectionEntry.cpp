@@ -53,6 +53,7 @@ void ConnectionEntry::OnClick() {
 	case VpnInfo::State::Connected:
 		connection.Disconnect();
 		OnConnectionUpdate();
+		tray_icon.Refresh();
 		break;
 	}
 }

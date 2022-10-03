@@ -11,10 +11,9 @@ private:
 	void* handle;
 	State state;
 private:
-	VpnInfo(std::wstring name, void* handle = nullptr) : name(name), handle(handle), state(handle != nullptr? State::Connected : State::Disconnected) {}
+	VpnInfo(std::wstring name, void* handle = nullptr);
 public:
 	VpnInfo(VpnInfo&& info) noexcept : name(std::move(info.name)), handle(info.handle), state(info.state) { info.handle = nullptr; }
-	~VpnInfo() { Disconnect(); }
 public:
 	const std::wstring& GetName() const { return name; }
 	State GetState() const { return state; }

@@ -1,6 +1,8 @@
 #include "ConnectionList.h"
 #include "ConnectionEntry.h"
 
+#include "../ConnectionTrayIcon.h"
+
 #include "WndDesign/frame/PaddingFrame.h"
 
 
@@ -25,4 +27,6 @@ void ConnectionList::Refresh() {
 		info.length = UpdateChildSizeRef(info.child, Size(size.width, length_min)).height;
 	}
 	UpdateLayout(0);
+	Redraw(region_infinite);
+	tray_icon.Refresh();
 }

@@ -18,6 +18,14 @@ inline VpnInfo::State GetConnectionState(RASCONNSTATE state) {
 	return VpnInfo::State::Disconnected;
 }
 
+inline VpnInfo::State GetConnectionState(void* handle) {
+	if (handle == nullptr) { return VpnInfo::State::Disconnected; }
+	RASCONNSTATUS rasStatus = {};
+	rasStatus.dwSize = sizeof(RASCONNSTATUS);
+	RasGetConnectStatus((HRASCONN)handle, &rasStatus);
+	return GetConnectionState(rasStatus.rasconnstate);
+}
+
 inline void SetVpnInfoState(VpnInfo& vpn_info, VpnInfo::State state) {
 	vpn_info.state = state;
 }
@@ -123,6 +131,8 @@ std::map<std::wstring, void*> EnumerateVpnConnection() {
 }
 
 
+VpnInfo::VpnInfo(std::wstring name, void* handle) : name(name), handle(handle), state(GetConnectionState(handle)) {}
+
 void VpnInfo::Connect(std::function<void()> callback) {
 	if (handle != nullptr) { return; }
 	RASDIALPARAMS ras_entry = {};
@@ -139,7 +149,7 @@ void VpnInfo::Disconnect() {
 	if (handle != nullptr) {
 		RasHangUp((HRASCONN)handle);
 		handle = nullptr;
-		state = State::Disconnected();
+		state = State::Disconnected;
 		RemoveRasDialCallback((DWORD)this);
 	}
 }
