@@ -159,7 +159,30 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="connection_monitor.cpp" />
+    <ClCompile Include="ConnectionTrayIcon.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="system\win32_tray_icon.cpp" />
+    <ClCompile Include="system\win32_vpn.cpp" />
+    <ClCompile Include="view\ConnectionEntry.cpp" />
+    <ClCompile Include="view\ConnectionList.cpp" />
+    <ClCompile Include="view\ConnectionMenu.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="connection_monitor.h" />
+    <ClInclude Include="ConnectionTrayIcon.h" />
+    <ClInclude Include="system\win32_tray_icon.h" />
+    <ClInclude Include="system\win32_vpn.h" />
+    <ClInclude Include="view\ConnectionEntry.h" />
+    <ClInclude Include="view\ConnectionList.h" />
+    <ClInclude Include="view\ConnectionMenu.h" />
+    <ClInclude Include="view\control\TextButton.h" />
+    <ClInclude Include="view\ExitButton.h" />
+    <ClInclude Include="view\RefreshButton.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="assets\connection_off.ico" />
+    <Image Include="assets\connection_on.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

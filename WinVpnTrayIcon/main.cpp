@@ -1,3 +1,7 @@
-int main() {
+#include "ConnectionTrayIcon.h"
 
+
+int main() {
+	ConnectionTrayIcon tray_icon;
+	tray_icon.Show();
 }
