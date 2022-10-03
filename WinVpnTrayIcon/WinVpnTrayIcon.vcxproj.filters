@@ -33,9 +33,6 @@
     <ClCompile Include="view\ConnectionList.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="connection_monitor.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="view\ConnectionEntry.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -45,9 +42,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="system\win32_vpn.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="connection_monitor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="view\ConnectionMenu.h">

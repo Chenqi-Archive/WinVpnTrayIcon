@@ -15,5 +15,4 @@ private:
 	ConnectionTrayIcon& tray_icon;
 public:
 	void Refresh();
-	void RefreshTrayIcon();
 };

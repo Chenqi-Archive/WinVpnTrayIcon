@@ -1,6 +1,8 @@
 #include "ConnectionEntry.h"
 #include "ConnectionList.h"
 
+#include "../ConnectionTrayIcon.h"
+
 
 BEGIN_NAMESPACE(Anonymous)
 
@@ -12,36 +14,45 @@ struct ConnectionEntryTextStyle : TextBlockStyle {
 };
 
 constexpr Color background_disconnected = Color::Gray;
-constexpr Color background_connecting = Color::Orange;
+constexpr Color background_connecting = Color::LightYellow;
 constexpr Color background_connected = Color::LightGreen;
-constexpr Color background_disconnecting = Color::Orange;
 
 END_NAMESPACE(Anonymous)
 
 
-ConnectionEntry::ConnectionEntry(VpnInfo&& connection) :
+ConnectionEntry::ConnectionEntry(ConnectionTrayIcon& tray_icon, VpnInfo&& connection) :
 	TextButton(ConnectionEntryTextStyle(), connection.GetName()),
-	monitor(std::move(connection), [&]() {
-	OnConnectionUpdate();
-	static_cast<ConnectionList&>(GetParent()).RefreshTrayIcon();
-}) {
+	tray_icon(tray_icon),
+	connection(std::move(connection)) {
 	OnConnectionUpdate();
 }
 
 void ConnectionEntry::OnConnectionUpdate() {
-	if (monitor.IsConnected()) {
-		SetBackground(background_connected);
-	} else {
+	switch (connection.GetState()) {
+	case VpnInfo::State::Disconnected:
 		SetBackground(background_disconnected);
+		break;
+	case VpnInfo::State::Connecting:
+		SetBackground(background_connecting);
+		break;
+	case VpnInfo::State::Connected:
+		SetBackground(background_connected);
+		break;
 	}
 }
 
 void ConnectionEntry::OnClick() {
-	if (monitor.IsDisconnected()) {
-		monitor.Connect();
-		SetBackground(background_connecting);
-	} else {
-		monitor.Disconnect();
-		SetBackground(background_disconnecting);
+	switch (connection.GetState()) {
+	case VpnInfo::State::Disconnected:
+		connection.Connect([&]() {
+			OnConnectionUpdate();
+			tray_icon.Refresh();
+		});
+		break;
+	case VpnInfo::State::Connecting:
+	case VpnInfo::State::Connected:
+		connection.Disconnect();
+		OnConnectionUpdate();
+		break;
 	}
 }

@@ -1,6 +1,6 @@
 #include "ConnectionTrayIcon.h"
-#include "connection_monitor.h"
 
+#include "system/win32_vpn.h"
 #include "view/ConnectionMenu.h"
 
 
@@ -12,7 +12,6 @@ std::wstring icon_connection_on = L"assets/connection_on.ico";
 inline std::wstring tooltip_none() { return L"no connection available"; }
 inline std::wstring tooltip_connecting(std::wstring name) { return name + L" connecting"; }
 inline std::wstring tooltip_connected(std::wstring name) { return name + L" connected"; }
-inline std::wstring tooltip_disconnecting(std::wstring name) { return name + L" disconnecting"; }
 inline std::wstring tooltip_disconnected(std::wstring name) { return name + L" disconnected"; }
 
 END_NAMESPACE(Anonymous)
@@ -20,45 +19,58 @@ END_NAMESPACE(Anonymous)
 
 ConnectionTrayIcon::ConnectionTrayIcon() : TrayIcon(icon_connection_off, tooltip_none()) {
 	Refresh();
-	if (monitor != nullptr) { OnConnectionUpdate(); }
 }
 
 ConnectionTrayIcon::~ConnectionTrayIcon() {}
 
 void ConnectionTrayIcon::Refresh() {
-	std::vector<VpnInfo> connection_list = ConnectionMonitor::Enumerate();
-	if (connection_list.empty()) { return; }
+	std::vector<VpnInfo> connection_list = VpnInfo::Enumerate();
+	if (connection_list.empty()) {
+		SetIcon(icon_connection_off);
+		SetTooltip(tooltip_none());
+		Update();
+		return;
+	}
 	for (auto& info : connection_list) {
-		if (info.IsConnected()) {
-			monitor.reset(new ConnectionMonitor(std::move(info), [&]() { OnConnectionUpdate(); }));
+		if (info.GetState() == VpnInfo::State::Connected) {
+			connection.reset(new VpnInfo(std::move(info)));
+			OnConnectionUpdate();
 			return;
 		}
 	}
-	monitor.reset(new ConnectionMonitor(std::move(connection_list.front()), [&]() { OnConnectionUpdate(); }));
+	connection.reset(new VpnInfo(std::move(connection_list.front())));
+	OnConnectionUpdate();
+	return;
 }
 
 void ConnectionTrayIcon::OnConnectionUpdate() {
-	if (monitor->IsConnected()) {
-		SetIcon(icon_connection_on);
-		SetTooltip(tooltip_connected(monitor->GetName()));
-		Update();
-	} else {
+	switch (connection->GetState()) {
+	case VpnInfo::State::Disconnected:
 		SetIcon(icon_connection_off);
-		SetTooltip(tooltip_disconnected(monitor->GetName()));
-		Update();
+		SetTooltip(tooltip_disconnected(connection->GetName()));
+		break;
+	case VpnInfo::State::Connecting:
+		SetTooltip(tooltip_connecting(connection->GetName()));
+		break;
+	case VpnInfo::State::Connected:
+		SetIcon(icon_connection_on);
+		SetTooltip(tooltip_connected(connection->GetName()));
+		break;
 	}
+	Update();
 }
 
 void ConnectionTrayIcon::OnLeftClick() {
-	if (monitor == nullptr) { Refresh(); if (monitor == nullptr) { return; } }
-	if (monitor->IsDisconnected()) {
-		monitor->Connect();
-		SetTooltip(tooltip_connecting(monitor->GetName()));
-		Update();
-	} else {
-		monitor->Disconnect();
-		SetTooltip(tooltip_disconnecting(monitor->GetName()));
-		Update();
+	if (connection == nullptr) { Refresh(); if (connection == nullptr) { return; } }
+	switch (connection->GetState()) {
+	case VpnInfo::State::Disconnected:
+		connection->Connect([&]() { OnConnectionUpdate(); });
+		break;
+	case VpnInfo::State::Connecting:
+	case VpnInfo::State::Connected:
+		connection->Disconnect();
+		OnConnectionUpdate();
+		break;
 	}
 }
 

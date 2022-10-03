@@ -159,7 +159,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="connection_monitor.cpp" />
     <ClCompile Include="ConnectionTrayIcon.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="system\win32_tray_icon.cpp" />
@@ -169,7 +168,6 @@
     <ClCompile Include="view\ConnectionMenu.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="connection_monitor.h" />
     <ClInclude Include="ConnectionTrayIcon.h" />
     <ClInclude Include="system\win32_tray_icon.h" />
     <ClInclude Include="system\win32_vpn.h" />

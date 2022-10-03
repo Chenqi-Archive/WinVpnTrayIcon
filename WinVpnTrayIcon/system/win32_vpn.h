@@ -1,24 +1,27 @@
 #include <string>
 #include <vector>
+#include <functional>
 
 
-struct VpnInfo {
+class VpnInfo {
+public:
+	enum class State { Disconnected, Connecting, Connected };
 private:
 	std::wstring name;
 	void* handle;
-	enum class State { Disconnected, Connecting, Connected} state;
+	State state;
 private:
-	VpnInfo(std::wstring name) : name(name), handle(nullptr), state(State::Disconnected) {}
-	VpnInfo(std::wstring name, void* handle) : name(name), handle(handle), state((Check(), state)) {}
+	VpnInfo(std::wstring name, void* handle = nullptr) : name(name), handle(handle), state(handle != nullptr? State::Connected : State::Disconnected) {}
 public:
-	VpnInfo(VpnInfo&& info) noexcept : name(info.name), handle(info.handle), state(info.state) {}
+	VpnInfo(VpnInfo&& info) noexcept : name(std::move(info.name)), handle(info.handle), state(info.state) { info.handle = nullptr; }
+	~VpnInfo() { Disconnect(); }
 public:
 	const std::wstring& GetName() const { return name; }
-	bool IsConnected() const { return state == State::Connected; }
-	bool IsDisconnected() const { return state == State::Disconnected; }
+	State GetState() const { return state; }
+private:
+	friend void SetVpnInfoState(VpnInfo&, State);
 public:
-	void Connect();
-	void Check();
+	void Connect(std::function<void()> callback);
 	void Disconnect();
 public:
 	static std::vector<VpnInfo> Enumerate();

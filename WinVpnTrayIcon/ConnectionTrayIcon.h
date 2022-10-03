@@ -8,15 +8,15 @@
 using WndDesign::MouseMsg;
 using WndDesign::Point;
 
-class ConnectionMonitor;
 
+class VpnInfo;
 
 class ConnectionTrayIcon : public TrayIcon {
 public:
 	ConnectionTrayIcon();
 	~ConnectionTrayIcon();
 private:
-	std::unique_ptr<ConnectionMonitor> monitor;
+	std::unique_ptr<VpnInfo> connection;
 public:
 	void Refresh();
 private:

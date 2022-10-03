@@ -77,5 +77,6 @@ void ConnectionMenu::Show(ConnectionTrayIcon& tray_icon, Point position) {
 	static ConnectionMenu& connection_menu = static_cast<ConnectionMenu&>(global.AddWnd(new ConnectionMenu(tray_icon)));
 	connection_menu.SetPosition(position);
 	connection_menu.DesktopFrame::Show();
+	connection_menu.DesktopFrame::SetForeground();
 	connection_menu.SetFocus();
 }
